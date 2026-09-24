@@ -1,0 +1,23 @@
+body {
+  margin: 0;
+  background: #f3f4f6;
+  font-family: Arial, sans-serif;
+}
+
+#root {
+  width: 100%;
+}
+
+h1 {
+  text-align: center;
+  font-size: 2rem;
+  margin-top: 20px;
+}
+
+button {
+  cursor: pointer;
+}
+
+button:hover {
+  opacity: 0.95;
+}
