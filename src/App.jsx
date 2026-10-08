@@ -112,7 +112,12 @@ const [completedTasks, setCompletedTasks] =
 };
 
   const completedToday = history.filter(
-    const callieCount = history.filter(
+  (x) =>
+    new Date(x.date).toDateString() ===
+    new Date().toDateString()
+).length;
+
+const callieCount = history.filter(
   (x) => x.exposure === "👱 Callie"
 ).length;
 
@@ -131,10 +136,6 @@ const binsCount = history.filter(
 const publicCount = history.filter(
   (x) => x.exposure === "🏪 Public Places"
 ).length;
-    (x) =>
-      new Date(x.date).toDateString() ===
-      new Date().toDateString()
-  ).length;
 
   const washColour =
     extraWashes <= 3
