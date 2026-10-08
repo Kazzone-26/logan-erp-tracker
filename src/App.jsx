@@ -110,23 +110,39 @@ const [completedTasks, setCompletedTasks] =
 ).length;
 
 const callieCount = history.filter(
-  (x) => x.exposure === "👱 Callie"
+  (x) =>
+    x.exposure === "👱 Callie" &&
+    new Date(x.date).toDateString() ===
+      new Date().toDateString()
 ).length;
 
 const carCount = history.filter(
-  (x) => x.exposure === "🚗 Car"
+  (x) =>
+    x.exposure === "🚗 Car" &&
+    new Date(x.date).toDateString() ===
+      new Date().toDateString()
 ).length;
 
 const safeItemCount = history.filter(
-  (x) => x.exposure === "🎮 Safe Item"
+  (x) =>
+    x.exposure === "🎮 Safe Item" &&
+    new Date(x.date).toDateString() ===
+      new Date().toDateString()
 ).length;
+``
 
 const binsCount = history.filter(
-  (x) => x.exposure === "🗑 Bins / Laundry"
+  (x) =>
+    x.exposure === "🗑 Bins / Laundry" &&
+    new Date(x.date).toDateString() ===
+      new Date().toDateString()
 ).length;
 
 const publicCount = history.filter(
-  (x) => x.exposure === "🏪 Public Places"
+  (x) =>
+    x.exposure === "🏪 Public Places" &&
+    new Date(x.date).toDateString() ===
+      new Date().toDateString()
 ).length;
 
   const washColour =
