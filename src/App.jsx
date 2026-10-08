@@ -87,22 +87,7 @@ const [completedTasks, setCompletedTasks] =
 
   setHistory([record, ...history]);
 
-  const updatedCompleted =
-  completedTasks.includes(selectedExposure)
-    ? completedTasks
-    : [...completedTasks, selectedExposure];
-
-  setCompletedTasks(updatedCompleted);
-
-  localStorage.setItem(
-    "completedTasks",
-    JSON.stringify(updatedCompleted)
-  );
-
-  localStorage.setItem(
-    "completedDate",
-    today
-  );
+  
 
   setSelectedExposure(null);
 
@@ -191,7 +176,13 @@ const publicCount = history.filter(
     fontWeight: "bold",
   }}
 >
-  {completedTasks.length} of {exposures.length}
+  {
+  callieCount +
+  carCount +
+  safeItemCount +
+  binsCount +
+  publicCount
+}
 </p>
 
           <p>Extra Hand Washes:</p>
@@ -231,8 +222,7 @@ const publicCount = history.filter(
               {exposures.map((item) => (
                 <button
   key={item}
-  disabled={completedTasks.includes(item)}
-  onClick={() =>
+    onClick={() =>
     setSelectedExposure(item)
   }
                   style={{
@@ -240,24 +230,16 @@ const publicCount = history.filter(
   padding: "18px",
   marginBottom: "12px",
   borderRadius: "12px",
-  border: completedTasks.includes(item)
-    ? "2px solid #22c55e"
-    : "1px solid #ddd",
-  background: completedTasks.includes(item)
-    ? "#dcfce7"
-    : "white",
+  border: "1px solid #ddd",
+  background: "white",
   fontSize: "18px",
   color: "#000000",
   fontWeight: "600",
   textAlign: "left",
-  cursor: completedTasks.includes(item)
-    ? "default"
-    : "pointer",
+  cursor: "pointer",
 }}
                 >
-  {completedTasks.includes(item)
-    ? `✅ ${item}`
-    : item}
+  {item}
 </button>
               ))}
             </>
