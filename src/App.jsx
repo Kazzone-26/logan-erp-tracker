@@ -112,6 +112,25 @@ const [completedTasks, setCompletedTasks] =
 };
 
   const completedToday = history.filter(
+    const callieCount = history.filter(
+  (x) => x.exposure === "👱 Callie"
+).length;
+
+const carCount = history.filter(
+  (x) => x.exposure === "🚗 Car"
+).length;
+
+const safeItemCount = history.filter(
+  (x) => x.exposure === "🎮 Safe Item"
+).length;
+
+const binsCount = history.filter(
+  (x) => x.exposure === "🗑 Bins / Laundry"
+).length;
+
+const publicCount = history.filter(
+  (x) => x.exposure === "🏪 Public Places"
+).length;
     (x) =>
       new Date(x.date).toDateString() ===
       new Date().toDateString()
@@ -151,7 +170,20 @@ const [completedTasks, setCompletedTasks] =
           <p>
   Today's Exposures
 </p>
-
+<div
+  style={{
+    marginTop: "20px",
+    padding: "15px",
+    background: "#f3f4f6",
+    borderRadius: "10px",
+  }}
+>
+  <p>👱 Callie: {callieCount}/2</p>
+  <p>🚗 Car: {carCount}/2</p>
+  <p>🎮 Safe Item: {safeItemCount}/2</p>
+  <p>🗑 Bins/Laundry: {binsCount}/2</p>
+  <p>🏪 Public Places: {publicCount}</p>
+</div>
 <p
   style={{
     fontSize: "24px",
