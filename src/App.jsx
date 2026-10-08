@@ -239,7 +239,28 @@ const publicCount = history.filter(
   cursor: "pointer",
 }}
                 >
-  {item}
+  {item === "👱 Callie" &&
+  `👱 Callie (${callieCount}/2)${
+    callieCount >= 2 ? " ✅" : ""
+  }`}
+
+{item === "🚗 Car" &&
+  `🚗 Car (${carCount}/2)${
+    carCount >= 2 ? " ✅" : ""
+  }`}
+
+{item === "🎮 Safe Item" &&
+  `🎮 Safe Item (${safeItemCount}/2)${
+    safeItemCount >= 2 ? " ✅" : ""
+  }`}
+
+{item === "🗑 Bins / Laundry" &&
+  `🗑 Bins / Laundry (${binsCount}/2)${
+    binsCount >= 2 ? " ✅" : ""
+  }`}
+
+{item === "🏪 Public Places" &&
+  `🏪 Public Places (${publicCount})`}
 </button>
               ))}
             </>
