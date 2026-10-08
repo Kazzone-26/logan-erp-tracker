@@ -346,41 +346,50 @@ const [completedTasks, setCompletedTasks] =
           )}
 
           <button
-            onClick={() =>
-              setExtraWashes(extraWashes + 1)
-            }
-            style={{
-              width: "100%",
-              padding: "16px",
-              background: "#ef4444",
-              color: "white",
-              border: "none",
-              borderRadius: "10px",
-            }}
-          >
-            🧼 Log Extra Hand Wash
-          </button>
+  onClick={() => {
+    setExtraWashes(extraWashes + 1);
+
+    const washRecord = {
+      type: "wash",
+      title: "🧼 Extra Hand Wash",
+      date: new Date().toISOString(),
+    };
+
+    setHistory([washRecord, ...history]);
+  }}
+  style={{
+    width: "100%",
+    padding: "16px",
+    background: "#ef4444",
+    color: "white",
+    border: "none",
+    borderRadius: "10px",
+  }}
+>
+  🧼 Log Extra Hand Wash
+</button>
+
 
           <br />
           <br />
 
           <button
-            onClick={() => {
-              if (extraWashes > 0) {
-                setExtraWashes(extraWashes - 1);
-              }
-            }}
-            style={{
-              width: "100%",
-              padding: "16px",
-              background: "#6b7280",
-              color: "white",
-              border: "none",
-              borderRadius: "10px",
-            }}
-          >
-            ↩ Undo Last Wash
-          </button>
+  onClick={() => {
+    if (extraWashes > 0) {
+      setExtraWashes(extraWashes - 1);
+    }
+  }}
+  style={{
+    width: "100%",
+    padding: "16px",
+    background: "#6b7280",
+    color: "white",
+    border: "none",
+    borderRadius: "10px",
+  }}
+>
+  ↩ Undo Last Wash
+</button>
         </div>
       )}
 
@@ -435,19 +444,21 @@ const [completedTasks, setCompletedTasks] =
               marginBottom: "10px",
             }}
           >
-            <strong>{item.exposure}</strong>
+            {item.type === "wash" ? (
+  <>
+    <strong>{item.title}</strong>
+  </>
+) : (
+  <>
+    <strong>{item.exposure}</strong>
 
-            <p>
-              Before: {item.before}
-            </p>
+    <p>Before: {item.before}</p>
 
-            <p>
-              After: {item.after}
-            </p>
+    <p>After: {item.after}</p>
 
-            <p>
-              Delay: {item.delay}
-            </p>
+    <p>Delay: {item.delay}</p>
+  </>
+)}
 
             <small>
               {new Date(
