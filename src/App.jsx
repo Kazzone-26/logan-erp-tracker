@@ -49,6 +49,8 @@ const [extraWashes, setExtraWashes] =
   const [before, setBefore] = useState(5);
   const [after, setAfter] = useState(5);
   const [delay, setDelay] = useState("30 mins");
+  const [customExposure, setCustomExposure] =
+  useState("");
 const [completedTasks, setCompletedTasks] =
   useState(initialCompleted);
 
@@ -78,7 +80,10 @@ const [completedTasks, setCompletedTasks] =
 
   const saveExposure = () => {
   const record = {
-  exposure: selectedExposure,
+  exposure:
+    selectedExposure === "Additional Exposure"
+      ? customExposure
+      : selectedExposure,
   before,
   after,
   delay,
@@ -94,6 +99,7 @@ const [completedTasks, setCompletedTasks] =
   setBefore(5);
   setAfter(5);
   setDelay("30 mins");
+  setCustomExposure("");
 };
 
   const completedToday = history.filter(
@@ -232,6 +238,22 @@ const publicCount = history.filter(
   {item}
 </button>
               ))}
+              <button
+  onClick={() =>
+    setSelectedExposure("Additional Exposure")
+  }
+  style={{
+    width: "100%",
+    padding: "18px",
+    marginBottom: "12px",
+    borderRadius: "12px",
+    border: "1px solid #ddd",
+    background: "#dbeafe",
+    fontSize: "18px",
+  }}
+>
+  ➕ Additional Exposure
+</button>
             </>
           )}
 
@@ -244,6 +266,28 @@ const publicCount = history.filter(
               }}
             >
               <h2>{selectedExposure}</h2>
+              {selectedExposure ===
+  "Additional Exposure" && (
+  <>
+    <p>Exposure Name</p>
+
+    <input
+      type="text"
+      value={customExposure}
+      onChange={(e) =>
+        setCustomExposure(
+          e.target.value
+        )
+      }
+      style={{
+        width: "100%",
+        padding: "10px",
+        marginBottom: "20px",
+      }}
+    />
+  </>
+)}
+
 
               <p>Anxiety Before</p>
 
