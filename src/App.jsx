@@ -49,8 +49,6 @@ const [extraWashes, setExtraWashes] =
   const [before, setBefore] = useState(5);
   const [after, setAfter] = useState(5);
   const [delay, setDelay] = useState("30 mins");
-  const [customExposure, setCustomExposure] =
-  useState("");
 const [completedTasks, setCompletedTasks] =
   useState(initialCompleted);
 
@@ -80,11 +78,7 @@ const [completedTasks, setCompletedTasks] =
 
   const saveExposure = () => {
   const record = {
-  exposure:
-    selectedExposure ===
-    "Additional Exposure"
-      ? customExposure
-      : selectedExposure,
+  exposure: selectedExposure,
   before,
   after,
   delay,
@@ -100,11 +94,11 @@ const [completedTasks, setCompletedTasks] =
   setBefore(5);
   setAfter(5);
   setDelay("30 mins");
-  setCustomExposure("");
 };
 
   const completedToday = history.filter(
   (x) =>
+    x.type !== "wash" &&
     new Date(x.date).toDateString() ===
     new Date().toDateString()
 ).length;
@@ -176,21 +170,10 @@ const publicCount = history.filter(
   <p>🎮 Safe Item: {safeItemCount}/2</p>
   <p>🗑 Bins/Laundry: {binsCount}/2</p>
   <p>🏪 Public Places: {publicCount}</p>
-</div>
-<p
-  style={{
-    fontSize: "24px",
-    fontWeight: "bold",
-  }}
->
-  {
-  callieCount +
-  carCount +
-  safeItemCount +
-  binsCount +
-  publicCount
-}
+  <p>
+  📊 Today's ERP Activities: {completedToday}
 </p>
+</div>
 
           <p>Extra Hand Washes:</p>
 
@@ -246,46 +229,9 @@ const publicCount = history.filter(
   cursor: "pointer",
 }}
                 >
-  {item === "👱 Callie" &&
-  `👱 Callie (${callieCount}/2)${
-    callieCount >= 2 ? " ✅" : ""
-  }`}
-
-{item === "🚗 Car" &&
-  `🚗 Car (${carCount}/2)${
-    carCount >= 2 ? " ✅" : ""
-  }`}
-
-{item === "🎮 Safe Item" &&
-  `🎮 Safe Item (${safeItemCount}/2)${
-    safeItemCount >= 2 ? " ✅" : ""
-  }`}
-
-{item === "🗑 Bins / Laundry" &&
-  `🗑 Bins / Laundry (${binsCount}/2)${
-    binsCount >= 2 ? " ✅" : ""
-  }`}
-
-{item === "🏪 Public Places" &&
-  `🏪 Public Places (${publicCount})`}
+  {item}
 </button>
               ))}
- <button
-  onClick={() =>
-    setSelectedExposure("Additional Exposure")
-  }
-  style={{
-    width: "100%",
-    padding: "18px",
-    marginBottom: "12px",
-    borderRadius: "12px",
-    border: "1px solid #ddd",
-    background: "#dbeafe",
-    fontSize: "18px",
-  }}
->
-  ➕ Additional Exposure
-</button>             
             </>
           )}
 
@@ -298,27 +244,6 @@ const publicCount = history.filter(
               }}
             >
               <h2>{selectedExposure}</h2>
-{selectedExposure ===
-  "Additional Exposure" && (
-  <>
-    <p>Exposure Name</p>
-
-    <input
-      type="text"
-      value={customExposure}
-      onChange={(e) =>
-        setCustomExposure(
-          e.target.value
-        )
-      }
-      style={{
-        width: "100%",
-        padding: "10px",
-        marginBottom: "20px",
-      }}
-    />
-  </>
-)}
 
               <p>Anxiety Before</p>
 
