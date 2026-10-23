@@ -39,6 +39,7 @@ const EXPOSURES = [
   "🎮 Safe Item",
   "🗑 Bins / Laundry",
 ];
+const REQUIRED_EXPOSURES = EXPOSURES.filter((exposure) => exposure !== "🏪 Public Places");
 
 const APP_THEME = {
   purple: "#6d28d9",
@@ -78,7 +79,7 @@ function getDailyGoalDatesFromHistory(history) {
   return new Set(
     Object.entries(byDate)
       .filter(([, counts]) => {
-        return EXPOSURES.every((exposure) => (counts[exposure] || 0) >= DAILY_GOAL);
+        return REQUIRED_EXPOSURES.every((exposure) => (counts[exposure] || 0) >= DAILY_GOAL);
       })
       .map(([dateKey]) => dateKey),
   );
@@ -182,17 +183,25 @@ export default function App() {
     return counts;
   }, {});
 
-  const minimumGoalMet = Object.values(todayCounts).filter((count) => count >= DAILY_GOAL).length;
-  const dailyGoalComplete = minimumGoalMet === EXPOSURES.length;
-  const dailyMinimumTotal = EXPOSURES.length * DAILY_GOAL;
-  const completedMinimumTotal = Object.values(todayCounts).reduce(
-    (sum, count) => sum + Math.min(count, DAILY_GOAL),
+  const minimumGoalMet = REQUIRED_EXPOSURES.filter(
+    (exposure) => todayCounts[exposure] >= DAILY_GOAL,
+  ).length;
+  const dailyGoalComplete = minimumGoalMet === REQUIRED_EXPOSURES.length;
+  const dailyMinimumTotal = REQUIRED_EXPOSURES.length * DAILY_GOAL;
+  const completedMinimumTotal = REQUIRED_EXPOSURES.reduce(
+    (sum, exposure) => sum + Math.min(todayCounts[exposure], DAILY_GOAL),
     0,
   );
-  const totalExtra = Object.values(todayCounts).reduce(
-    (sum, count) => sum + Math.max(count - DAILY_GOAL, 0),
-    0,
-  );
+  const customBonusCount = todaysExposureEntries.filter(
+    (item) => !EXPOSURES.includes(item.exposure),
+  ).length;
+  const totalExtra =
+    REQUIRED_EXPOSURES.reduce(
+      (sum, exposure) => sum + Math.max(todayCounts[exposure] - DAILY_GOAL, 0),
+      0,
+    ) +
+    todayCounts["🏪 Public Places"] +
+    customBonusCount;
   const dashboardActions = [
     { label: "👱 Callie", type: "exposure", exposure: "👱 Callie" },
     { label: "🚗 Car", type: "exposure", exposure: "🚗 Car" },
@@ -373,7 +382,7 @@ export default function App() {
               ⭐ {dailyQuote} ⭐
             </strong>
             <div style={{ color: APP_THEME.purpleDark, fontSize: "12px", fontWeight: "700" }}>
-              Daily minimum: {DAILY_GOAL} of each exposure. More is welcome.
+              Daily minimum: {DAILY_GOAL} each of 4 types. Public Places is a bonus.
             </div>
           </div>
 
@@ -401,7 +410,7 @@ export default function App() {
                 Types at minimum
               </div>
               <strong style={{ fontSize: "18px", color: APP_THEME.purpleDark }}>
-                {minimumGoalMet}/{EXPOSURES.length}
+                {minimumGoalMet}/{REQUIRED_EXPOSURES.length}
               </strong>
             </div>
           </div>
@@ -421,7 +430,7 @@ export default function App() {
               {completedMinimumTotal}/{dailyMinimumTotal} minimum exposures complete
             </strong>
             <div style={{ marginTop: "4px", color: APP_THEME.purpleDark, fontSize: "13px", fontWeight: "700" }}>
-              Types at minimum: {minimumGoalMet}/{EXPOSURES.length} · Bonus exposures: {totalExtra}
+              Types at minimum: {minimumGoalMet}/{REQUIRED_EXPOSURES.length} · Bonus exposures: {totalExtra}
             </div>
           </div>
 
@@ -436,9 +445,14 @@ export default function App() {
             {dashboardActions.map((item) => {
               const isWash = item.type === "wash";
               const count = isWash ? extraWashes : todayCounts[item.exposure] || 0;
-              const isComplete = !isWash && count >= DAILY_GOAL;
+              const isRequiredExposure = REQUIRED_EXPOSURES.includes(item.exposure);
+              const isComplete = !isWash && isRequiredExposure && count >= DAILY_GOAL;
               const isOverWashLimit = isWash && count > 5;
-              const extra = isWash ? 0 : Math.max(count - DAILY_GOAL, 0);
+              const extra = isWash
+                ? 0
+                : isRequiredExposure
+                  ? Math.max(count - DAILY_GOAL, 0)
+                  : count;
               const progress = Math.min((count / DAILY_GOAL) * 100, 100);
 
               return (
@@ -463,11 +477,15 @@ export default function App() {
                   >
                     <strong>{item.label}</strong>
                     <span className="dashboard-action-count">
-                      {isWash ? `${count} today` : `${count}/${DAILY_GOAL}`}
+                      {isWash
+                        ? `${count} today`
+                        : isRequiredExposure
+                          ? `${count}/${DAILY_GOAL}`
+                          : `${count} bonus`}
                     </span>
                   </div>
 
-                    {!isWash && (
+                    {!isWash && isRequiredExposure && (
                       <div className="dashboard-action-progress">
                         <div
                           className="dashboard-action-progress-fill"
@@ -482,7 +500,9 @@ export default function App() {
                         {isWash ? "Log OCD wash" : "Log details"}
                     </span>
                     {isOverWashLimit && <span className="dashboard-action-alert">Over 5 today</span>}
-                    {extra > 0 && <span className="dashboard-action-extra">+{extra} extra</span>}
+                    {isRequiredExposure && extra > 0 && (
+                      <span className="dashboard-action-extra">+{extra} bonus</span>
+                    )}
                     {isComplete && extra === 0 && <span className="dashboard-action-extra">Goal met!</span>}
                   </div>
                 </button>
