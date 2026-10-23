@@ -21,3 +21,219 @@ button {
 button:hover {
   opacity: 0.95;
 }
+
+.dashboard-action {
+  min-width: 0;
+  min-height: 78px;
+  padding: 7px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 5px;
+  border: 2px solid #5b21b6;
+  border-radius: 14px;
+  background: linear-gradient(145deg, #7c3aed, #5b21b6);
+  color: #fff;
+  text-align: left;
+  cursor: pointer;
+  box-shadow: 0 4px 0 #3b147c, 0 8px 14px rgba(76, 29, 149, 0.18);
+  transition: transform 140ms ease, box-shadow 140ms ease, filter 140ms ease;
+}
+
+.dashboard-action:hover {
+  opacity: 1;
+  filter: brightness(1.06);
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 #3b147c, 0 11px 18px rgba(76, 29, 149, 0.22);
+}
+
+.dashboard-action:active {
+  transform: translateY(2px);
+  box-shadow: 0 2px 0 #3b147c, 0 4px 8px rgba(76, 29, 149, 0.16);
+}
+
+.dashboard-action:focus-visible {
+  outline: 3px solid #facc15;
+  outline-offset: 3px;
+}
+
+.dashboard-action-complete {
+  border-color: #ca8a04;
+  background: linear-gradient(145deg, #fde047, #facc15);
+  color: #4c1d95;
+  box-shadow: 0 4px 0 #a16207, 0 8px 14px rgba(202, 138, 4, 0.2);
+}
+
+.dashboard-action-complete:hover {
+  box-shadow: 0 6px 0 #a16207, 0 11px 18px rgba(202, 138, 4, 0.24);
+}
+
+.dashboard-action-over-limit {
+  border-color: #dc2626;
+  background: linear-gradient(145deg, #fee2e2, #fecaca);
+  color: #7f1d1d;
+  box-shadow: 0 4px 0 #b91c1c, 0 8px 14px rgba(185, 28, 28, 0.2);
+}
+
+.dashboard-action-over-limit:hover {
+  box-shadow: 0 6px 0 #b91c1c, 0 11px 18px rgba(185, 28, 28, 0.24);
+}
+
+.dashboard-action-heading,
+.dashboard-action-footer {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 6px;
+}
+
+.dashboard-action-heading strong {
+  font-size: 13px;
+  line-height: 1.2;
+}
+
+.dashboard-action-count {
+  flex: 0 0 auto;
+  padding: 3px 6px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.2);
+  font-size: 12px;
+  font-weight: 800;
+}
+
+.dashboard-action-progress {
+  height: 5px;
+  overflow: hidden;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.28);
+}
+
+.dashboard-action-progress-fill {
+  height: 100%;
+  border-radius: inherit;
+  background: #facc15;
+  transition: width 180ms ease;
+}
+
+.dashboard-action-complete .dashboard-action-progress {
+  background: rgba(76, 29, 149, 0.18);
+}
+
+.dashboard-action-complete .dashboard-action-progress-fill {
+  background: #7c3aed;
+}
+
+.dashboard-action-cta {
+  display: inline-flex;
+  min-height: 24px;
+  align-items: center;
+  gap: 5px;
+  padding: 0 7px;
+  border-radius: 999px;
+  background: #facc15;
+  color: #4c1d95;
+  font-size: 10px;
+  font-weight: 800;
+  white-space: nowrap;
+}
+
+.dashboard-action-complete .dashboard-action-cta {
+  background: #5b21b6;
+  color: #fff;
+}
+
+.dashboard-action-over-limit .dashboard-action-count,
+.dashboard-action-alert {
+  background: #b91c1c;
+  color: #fff;
+}
+
+.dashboard-action-alert {
+  padding: 4px 6px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 800;
+  text-align: center;
+}
+
+.dashboard-action-over-limit .dashboard-action-cta {
+  background: #7f1d1d;
+  color: #fff;
+}
+
+.dashboard-action-plus {
+  font-size: 18px;
+  line-height: 1;
+}
+
+.dashboard-action-extra {
+  font-size: 10px;
+  font-weight: 800;
+  text-align: right;
+}
+
+.wash-context-prompt {
+  position: fixed;
+  z-index: 5;
+  right: 12px;
+  bottom: 72px;
+  left: 12px;
+  max-width: 576px;
+  margin: 0 auto;
+  padding: 12px;
+  border: 2px solid #6d28d9;
+  border-radius: 12px;
+  background: #fff;
+  color: #4c1d95;
+  box-shadow: 0 8px 24px rgba(31, 41, 55, 0.2);
+}
+
+.wash-context-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.wash-context-dismiss {
+  padding: 6px 10px;
+  border: 1px solid #6d28d9;
+  border-radius: 8px;
+  background: #fff;
+  color: #4c1d95;
+  font-weight: 700;
+}
+
+.wash-context-question {
+  margin: 4px 0 10px;
+  font-size: 13px;
+}
+
+.wash-context-options {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+.wash-context-option {
+  min-height: 40px;
+  padding: 7px 12px;
+  border: 1px solid #6d28d9;
+  border-radius: 999px;
+  background: #f3e8ff;
+  color: #4c1d95;
+  font-weight: 700;
+}
+
+.wash-context-option:hover,
+.wash-context-dismiss:hover {
+  background: #fef3c7;
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dashboard-action,
+  .dashboard-action-progress-fill {
+    transition: none;
+  }
+}
